@@ -41,9 +41,14 @@
                     <p>Control de Asistencia por Escáner QR</p>
                 </div>
             </div>
-            <a href="https://sdbernalg004-netizen.github.io/landing-qr-sales/" target="_blank" class="btn btn-warning">
-                <i class="ti ti-crown"></i> Comprar Licencia
-            </a>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button class="btn btn-primary" id="open-guide-btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: white; padding: 0.75rem 1rem;">
+                    <i class="ti ti-help-hexagon text-accent"></i> Guía de Uso
+                </button>
+                <a href="https://sdbernalg004-netizen.github.io/landing-qr-sales/" target="_blank" class="btn btn-warning">
+                    <i class="ti ti-crown"></i> Comprar Licencia
+                </a>
+            </div>
         </div>
     </header>
 
@@ -60,6 +65,12 @@
                     <p><strong>Arrastra tu archivo Excel aquí</strong></p>
                     <p class="text-secondary" style="font-size: 0.8rem; margin-top: 4px;">Modo Demo: Lee los primeros 15 invitados</p>
                     <input type="file" id="excel-file-input" accept=".xlsx, .xls" class="hidden">
+                </div>
+
+                <div style="margin-top: 10px;">
+                    <button id="download-template-btn" class="btn btn-primary" style="font-size: 0.8rem; padding: 6px 12px; width: 100%; background: rgba(99,102,241,0.15); border: 1px solid var(--accent); color: white;">
+                        <i class="ti ti-download"></i> Descargar Plantilla Excel de Ejemplo
+                    </button>
                 </div>
 
                 <div id="file-info" class="hidden" style="margin-top: 10px;">
@@ -161,6 +172,51 @@
                     Entendido, continuar probando
                 </button>
             </div>
+        </div>
+    <!-- Modal de Guía de Uso Rápida -->
+    <div id="guide-modal" class="modal-overlay hidden" style="z-index: 10000;">
+        <div class="upgrade-modal-card" style="max-width: 600px; text-align: left; padding: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 8px;">
+                    <i class="ti ti-help-hexagon text-accent"></i> Guía Rápida de Uso - AccesoQR
+                </h3>
+                <button id="close-guide-modal-btn" class="btn btn-primary" style="padding: 4px 8px; font-size: 0.8rem; background: transparent; border: none; color: white;"><i class="ti ti-x"></i></button>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 0.9rem; color: var(--text-secondary); max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <div style="display: flex; gap: 12px;">
+                    <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</span>
+                    <div>
+                        <strong style="color: white; display: block; margin-bottom: 2px;">Prepara tu Lista de Invitados en Excel</strong>
+                        Usa la estructura recomendada de columnas: <code>ID</code>, <code>Invitado</code>, <code>Cantidad</code>, <code>QR</code> y <code>Asistencia</code>. Puedes descargar una plantilla lista haciendo clic en el botón <em>"Descargar Plantilla Excel de Ejemplo"</em>.
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 12px;">
+                    <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</span>
+                    <div>
+                        <strong style="color: white; display: block; margin-bottom: 2px;">Escanea los Boletos QR en Puerta</strong>
+                        Carga el archivo Excel en la app, activa la cámara de tu celular o computadora y comienza a escanear los códigos de los asistentes.
+                    </div>
+                </div>
+
+                <!-- Tip Box: Consejos para diseñar tus propios QRs -->
+                <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 1rem; margin-top: 0.5rem;">
+                    <strong style="color: #A5B4FC; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 0.95rem;">
+                        <i class="ti ti-bulb text-accent"></i> Consejos si diseñas tus propios Códigos QR:
+                    </strong>
+                    <ul style="margin-left: 1.25rem; font-size: 0.8rem; color: #D1D5DB; display: flex; flex-direction: column; gap: 4px;">
+                        <li><strong>Coincidencia:</strong> El texto codificado dentro del QR debe ser idéntico al valor en la columna <code>QR</code> o <code>ID</code> de tu Excel (ej. <code>INV-101</code>).</li>
+                        <li><strong>Texto Corto:</strong> Usa códigos breves (ej. <code>INV-001</code>). Evita guardar párrafos o URLs largas dentro del QR.</li>
+                        <li><strong>Contraste:</strong> Diseña siempre el código en negro sobre fondo blanco con un margen en blanco alrededor.</li>
+                        <li><strong>Brillo en Celular:</strong> Pide a tus invitados presentar el boleto con el brillo de su pantalla al máximo.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <button id="guide-modal-ok-btn" class="btn btn-primary btn-block" style="margin-top: 1.5rem;">
+                ¡Entendido, comenzar!
+            </button>
         </div>
     </div>
 

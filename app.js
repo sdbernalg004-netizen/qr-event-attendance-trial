@@ -1,6 +1,18 @@
-// QR Event Check-In - Versión Trial (Límite 15 invitados)
+/**
+ * ============================================================================
+ * LÓGICA DE LA APLICACIÓN DE PRUEBA / DEMO (app.js)
+ * ============================================================================
+ * Esta versión gratuita de demostración no requiere clave de activación,
+ * pero restringe la carga a un máximo de 15 invitados por lista Excel.
+ * 
+ * Si se intenta procesar una lista mayor, muestra un modal avisando al usuario
+ * que debe adquirir la Licencia PRO en la página de ventas.
+ */
+
+// Límite de invitados máximo permitido en esta versión de demostración
 const MAX_TRIAL_GUESTS = 15;
 
+// Variables de estado global
 let guestData = [];
 let originalWorkbook = null;
 let activeSheetName = "";
@@ -38,7 +50,41 @@ document.addEventListener("DOMContentLoaded", () => {
     setupScanner();
     setupSearch();
     setupModalEvents();
+    setupGuideModal();
+
+    const downloadTemplateBtn = document.getElementById("download-template-btn");
+    if (downloadTemplateBtn) {
+        downloadTemplateBtn.addEventListener("click", downloadSampleTemplate);
+    }
 });
+
+function setupGuideModal() {
+    const openGuideBtn = document.getElementById("open-guide-btn");
+    const guideModal = document.getElementById("guide-modal");
+    const closeGuideModalBtn = document.getElementById("close-guide-modal-btn");
+    const guideModalOkBtn = document.getElementById("guide-modal-ok-btn");
+
+    if (openGuideBtn && guideModal) {
+        openGuideBtn.addEventListener("click", () => guideModal.classList.remove("hidden"));
+        if (closeGuideModalBtn) closeGuideModalBtn.addEventListener("click", () => guideModal.classList.add("hidden"));
+        if (guideModalOkBtn) guideModalOkBtn.addEventListener("click", () => guideModal.classList.add("hidden"));
+    }
+}
+
+function downloadSampleTemplate() {
+    const sampleData = [
+        { "ID": "101", "Invitado": "Juan Pérez", "Cantidad": 2, "QR": "INV-101", "Asistencia": "" },
+        { "ID": "102", "Invitado": "María Rodríguez", "Cantidad": 1, "QR": "INV-102", "Asistencia": "" },
+        { "ID": "103", "Invitado": "Carlos López", "Cantidad": 3, "QR": "INV-103", "Asistencia": "" },
+        { "ID": "104", "Invitado": "Ana Martínez", "Cantidad": 2, "QR": "INV-104", "Asistencia": "" },
+        { "ID": "105", "Invitado": "Luis García", "Cantidad": 1, "QR": "INV-105", "Asistencia": "" }
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(sampleData, { header: ["ID", "Invitado", "Cantidad", "QR", "Asistencia"] });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Invitados");
+    XLSX.writeFile(workbook, "Plantilla_Invitados_AccesoQR.xlsx");
+}
 
 function setupPwa() {
     if ('serviceWorker' in navigator) {
