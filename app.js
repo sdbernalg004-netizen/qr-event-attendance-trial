@@ -73,14 +73,14 @@ function setupGuideModal() {
 
 function downloadSampleTemplate() {
     const sampleData = [
-        { "ID": "101", "Invitado": "Juan Pérez", "Cantidad": 2, "QR": "INV-101", "Asistencia": "" },
-        { "ID": "102", "Invitado": "María Rodríguez", "Cantidad": 1, "QR": "INV-102", "Asistencia": "" },
-        { "ID": "103", "Invitado": "Carlos López", "Cantidad": 3, "QR": "INV-103", "Asistencia": "" },
-        { "ID": "104", "Invitado": "Ana Martínez", "Cantidad": 2, "QR": "INV-104", "Asistencia": "" },
-        { "ID": "105", "Invitado": "Luis García", "Cantidad": 1, "QR": "INV-105", "Asistencia": "" }
+        { "ID": "101", "Invitado": "Juan Pérez", "Cantidad": 2, "Mesa": "Mesa 1", "VIP": "VIP", "Teléfono": "5512345678", "Notas": "Vegetariano", "QR": "INV-101", "Asistencia": "" },
+        { "ID": "102", "Invitado": "María Rodríguez", "Cantidad": 1, "Mesa": "Mesa 1", "VIP": "VIP", "Teléfono": "5587654321", "Notas": "", "QR": "INV-102", "Asistencia": "" },
+        { "ID": "103", "Invitado": "Carlos López", "Cantidad": 3, "Mesa": "Mesa 2", "VIP": "No", "Teléfono": "5533221100", "Notas": "", "QR": "INV-103", "Asistencia": "" },
+        { "ID": "104", "Invitado": "Ana Martínez", "Cantidad": 2, "Mesa": "Mesa 2", "VIP": "No", "Teléfono": "5544556677", "Notas": "Alergia mariscos", "QR": "INV-104", "Asistencia": "" },
+        { "ID": "105", "Invitado": "Luis García", "Cantidad": 1, "Mesa": "Mesa 3", "VIP": "No", "Teléfono": "5599887766", "Notas": "", "QR": "INV-105", "Asistencia": "" }
     ];
 
-    const worksheet = XLSX.utils.json_to_sheet(sampleData, { header: ["ID", "Invitado", "Cantidad", "QR", "Asistencia"] });
+    const worksheet = XLSX.utils.json_to_sheet(sampleData, { header: ["ID", "Invitado", "Cantidad", "Mesa", "VIP", "Teléfono", "Notas", "QR", "Asistencia"] });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Invitados");
     XLSX.writeFile(workbook, "Plantilla_Invitados_AccesoQR.xlsx");
