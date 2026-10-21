@@ -20,6 +20,8 @@ let originalColumnsOrder = [];
 let isScanning = false;
 let videoStream = null;
 let scanInterval = null;
+let lastScannedCode = "";
+let lastScannedTime = 0;
 
 // DOM Elements
 const dropZone = document.getElementById("drop-zone");
@@ -368,6 +370,13 @@ function scanFrame() {
 
 function processQrCode(qrString) {
     const val = qrString.trim();
+    const now = Date.now();
+    if (val === lastScannedCode && (now - lastScannedTime) < 2800) {
+        return;
+    }
+    lastScannedCode = val;
+    lastScannedTime = now;
+
     const guest = guestData.find(g => 
         g.qrValue === val || 
         String(g.id) === val || 
