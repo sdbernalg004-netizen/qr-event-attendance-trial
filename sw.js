@@ -1,9 +1,9 @@
-const CACHE_NAME = 'qr-event-demo-v1';
+const CACHE_NAME = 'qr-event-demo-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './styles.css',
-    './app.js',
+    './styles.css?v=2.0',
+    './app.js?v=2.0',
     './manifest.json',
     'https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap',
     'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
@@ -15,7 +15,7 @@ const ASSETS_TO_CACHE = [
 
 self.addEventListener('install', (e) => {
     e.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE).catch(err => console.warn('Cache error:', err)))
     );
     self.skipWaiting();
 });
@@ -26,6 +26,7 @@ self.addEventListener('activate', (e) => {
             return Promise.all(
                 keys.map((key) => {
                     if (key !== CACHE_NAME) {
+                        console.log('[SW Demo] Deleting old cache:', key);
                         return caches.delete(key);
                     }
                 })
@@ -35,7 +36,29 @@ self.addEventListener('activate', (e) => {
     self.clients.claim();
 });
 
+// Network-First para archivos locales
 self.addEventListener('fetch', (e) => {
+    if (!e.request.url.startsWith('http')) return;
+
+    const url = new URL(e.request.url);
+    const isLocal = url.origin === self.location.origin;
+
+    if (isLocal) {
+        e.respondWith(
+            fetch(e.request)
+                .then(networkRes => {
+                    if (networkRes && networkRes.status === 200) {
+                        const resClone = networkRes.clone();
+                        caches.open(CACHE_NAME).then(c => c.put(e.request, resClone));
+                    }
+                    return networkRes;
+                })
+                .catch(() => caches.match(e.request).then(cached => cached || caches.match('./index.html')))
+        );
+        return;
+    }
+
+    // Librerías externas
     e.respondWith(
         caches.match(e.request).then((res) => res || fetch(e.request))
     );
