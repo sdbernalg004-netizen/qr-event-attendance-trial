@@ -1,14 +1,14 @@
 :root {
-    --bg-dark: #0B0F17;
-    --card-bg: #161C28;
-    --accent: #6366F1;
-    --accent-hover: #4F46E5;
-    --text-primary: #F9FAFB;
-    --text-secondary: #9CA3AF;
+    --bg-dark: #141312;
+    --card-bg: #1C1A18;
+    --accent: #C5A059;
+    --accent-hover: #A47B2C;
+    --text-primary: #FAF9F5;
+    --text-secondary: #A8A29E;
     --success: #10B981;
-    --warning: #F59E0B;
+    --warning: #C5A059;
     --danger: #EF4444;
-    --border-color: rgba(255, 255, 255, 0.08);
+    --border-color: #332F2B;
 }
 
 * {
@@ -27,7 +27,7 @@ body {
 
 /* Trial Banner Top */
 .trial-top-bar {
-    background: linear-gradient(90deg, #F59E0B, #EF4444);
+    background: linear-gradient(90deg, #A47B2C, #C5A059, #B88E38);
     color: #FFFFFF;
     text-align: center;
     padding: 10px 15px;
@@ -37,7 +37,7 @@ body {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
 }
 
 .trial-top-bar a {
@@ -96,9 +96,9 @@ body {
 }
 
 .badge-demo {
-    background-color: rgba(245, 158, 11, 0.15);
-    color: #FBBF24;
-    border: 1px solid rgba(245, 158, 11, 0.3);
+    background-color: rgba(197, 160, 89, 0.15);
+    color: #C5A059;
+    border: 1px solid rgba(197, 160, 89, 0.35);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -152,7 +152,7 @@ body {
 
 .drop-zone:hover, .drop-zone.dragover {
     border-color: var(--accent);
-    background-color: rgba(99, 102, 241, 0.05);
+    background-color: rgba(197, 160, 89, 0.08);
 }
 
 .drop-icon {
