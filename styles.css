@@ -1,14 +1,16 @@
 :root {
-    --bg-dark: #141312;
-    --card-bg: #1C1A18;
-    --accent: #C5A059;
-    --accent-hover: #A47B2C;
-    --text-primary: #FAF9F5;
-    --text-secondary: #A8A29E;
-    --success: #10B981;
-    --warning: #C5A059;
+    --bg-dark: #1A1412;
+    --card-bg: #271E1C;
+    --accent: #DE6443;
+    --accent-hover: #C94E2D;
+    --text-primary: #F5EDE6;
+    --text-secondary: #D4C5BC;
+    --success: #34D399;
+    --warning: #DE6443;
     --danger: #EF4444;
-    --border-color: #332F2B;
+    --border-color: rgba(222, 100, 67, 0.22);
+    --font-heading: 'Lora', Georgia, serif;
+    --font-sans: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * {
@@ -18,26 +20,30 @@
 }
 
 body {
-    font-family: 'Outfit', sans-serif;
+    font-family: var(--font-sans);
     background-color: var(--bg-dark);
     color: var(--text-primary);
     min-height: 100vh;
     padding-bottom: 2rem;
 }
 
+h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+}
+
 /* Trial Banner Top */
 .trial-top-bar {
-    background: linear-gradient(90deg, #A47B2C, #C5A059, #B88E38);
+    background: linear-gradient(90deg, #8E4939, #DE6443, #BA6E5B);
     color: #FFFFFF;
     text-align: center;
     padding: 10px 15px;
     font-size: 0.95rem;
-    font-weight: 600;
+    font-weight: 700;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 15px rgba(197, 160, 89, 0.3);
+    box-shadow: 0 4px 15px rgba(222, 100, 67, 0.35);
 }
 
 .trial-top-bar a {
