@@ -6,7 +6,7 @@
     --text-primary: #F5EDE6;
     --text-secondary: #D4C5BC;
     --success: #34D399;
-    --warning: #DE6443;
+    --warning: #E8955A;
     --danger: #EF4444;
     --border-color: rgba(222, 100, 67, 0.22);
     --font-heading: 'Lora', Georgia, serif;
@@ -48,7 +48,7 @@ h1, h2, h3, h4 {
 
 .trial-top-bar a {
     background-color: #FFFFFF;
-    color: #111827;
+    color: #1A1412;
     padding: 4px 12px;
     border-radius: 20px;
     text-decoration: none;
@@ -63,7 +63,7 @@ h1, h2, h3, h4 {
 
 /* Header */
 .app-header {
-    background-color: rgba(22, 28, 40, 0.8);
+    background-color: rgba(26, 20, 18, 0.88);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 1.5rem;
@@ -102,9 +102,9 @@ h1, h2, h3, h4 {
 }
 
 .badge-demo {
-    background-color: rgba(197, 160, 89, 0.15);
-    color: #C5A059;
-    border: 1px solid rgba(197, 160, 89, 0.35);
+    background-color: rgba(222, 100, 67, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(222, 100, 67, 0.35);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -158,7 +158,7 @@ h1, h2, h3, h4 {
 
 .drop-zone:hover, .drop-zone.dragover {
     border-color: var(--accent);
-    background-color: rgba(197, 160, 89, 0.08);
+    background-color: rgba(222, 100, 67, 0.08);
 }
 
 .drop-icon {
@@ -249,7 +249,7 @@ h1, h2, h3, h4 {
 
 .btn-warning {
     background-color: var(--warning);
-    color: #111827;
+    color: #1A1412;
 }
 
 .btn-block {

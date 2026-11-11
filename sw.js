@@ -1,12 +1,12 @@
-const CACHE_NAME = 'qr-event-demo-v6';
+const CACHE_NAME = 'qr-event-demo-v7';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './styles.css?v=6.0',
-    './app.js?v=6.0',
+    './styles.css?v=7.0',
+    './app.js?v=7.0',
     './manifest.json',
     'https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Urbanist:wght@400;500;600;700;800&display=swap',
-    'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css',
+    'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.0/dist/tabler-icons.min.css',
     'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js',
     'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js',
     'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js',
