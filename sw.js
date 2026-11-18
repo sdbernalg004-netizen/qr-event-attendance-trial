@@ -1,9 +1,9 @@
-const CACHE_NAME = 'qr-event-demo-v7';
+const CACHE_NAME = 'qr-event-demo-v8';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
-    './styles.css?v=7.0',
-    './app.js?v=7.0',
+    './styles.css?v=8.0',
+    './app.js?v=8.0',
     './manifest.json',
     'https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Urbanist:wght@400;500;600;700;800&display=swap',
     'https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.28.0/dist/tabler-icons.min.css',

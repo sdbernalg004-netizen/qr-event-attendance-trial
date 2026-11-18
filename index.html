@@ -13,7 +13,7 @@
 
     <!-- PWA & Theme -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#DE6443">
+    <meta name="theme-color" content="#DE6443" id="theme-color-meta">
     
     <!-- Fonts & Icons: Lora + Urbanist -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
-    <link rel="stylesheet" href="styles.css?v=7.0">
+    <link rel="stylesheet" href="styles.css?v=8.0">
 </head>
 <body>
 
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
-                <button class="btn btn-primary" id="open-guide-btn" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: white; padding: 0.75rem 1rem;">
+                <button class="btn btn-guide" id="open-guide-btn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border-color); color: var(--text-primary); padding: 0.75rem 1rem;">
                     <i class="ti ti-help-hexagon text-accent"></i> Guía de Uso
                 </button>
                 <a href="https://sdbernalg004-netizen.github.io/VENTAS_QR_ASSIST/" target="_blank" class="btn btn-warning">
@@ -57,6 +57,30 @@
             </div>
         </div>
     </header>
+
+    <!-- Selector Interactivo de Paleta de Evento -->
+    <section class="event-palette-bar" aria-label="Personaliza el Color de tu Evento">
+        <div class="event-palette-inner">
+            <div class="palette-bar-label">
+                <i class="ti ti-palette"></i>
+                <div>
+                    <strong>Personaliza el Color de tu Evento</strong>
+                    <span>Vista previa en vivo</span>
+                </div>
+            </div>
+            <div class="palette-chips" id="trial-palette-chips"></div>
+            <div class="palette-bar-tools">
+                <label class="custom-color-chip" for="trial-color-picker" title="Elegir cualquier color personalizado">
+                    <input type="color" id="trial-color-picker" value="#DE6443">
+                    <span>Color libre</span>
+                </label>
+                <button type="button" id="trial-theme-toggle" class="btn-theme-chip" title="Alternar Modo Noche / Modo Día para Jardín">
+                    <i class="ti ti-sun" id="trial-theme-icon"></i>
+                    <span id="trial-theme-text">Modo Día</span>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Main Content -->
     <main class="main-container">
@@ -74,7 +98,7 @@
                 </div>
 
                 <div style="margin-top: 10px;">
-                    <button id="download-template-btn" class="btn btn-primary" style="font-size: 0.8rem; padding: 6px 12px; width: 100%; background: rgba(99,102,241,0.15); border: 1px solid var(--accent); color: white;">
+                    <button id="download-template-btn" class="btn btn-secondary-accent" style="font-size: 0.8rem; padding: 8px 12px; width: 100%; background: var(--accent-glow); border: 1px solid var(--accent); color: var(--text-primary);">
                         <i class="ti ti-download"></i> Descargar Plantilla Excel de Ejemplo
                     </button>
                 </div>
@@ -168,13 +192,13 @@
             <i class="ti ti-crown upgrade-icon"></i>
             <h3>¡Límite de la Versión Demo!</h3>
             <p id="upgrade-modal-msg">Has alcanzado el límite de 15 invitados permitido en la versión gratuita de prueba.</p>
-            <p style="font-size: 0.85rem; color: #D1D5DB; margin-bottom: 1.5rem;">Adquiere una Licencia PRO para procesar 300, 600 o eventos ilimitados con múltiples dispositivos en tiempo real.</p>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.5rem;">Adquiere una Licencia PRO para procesar 300, 600 o eventos ilimitados con múltiples dispositivos en tiempo real.</p>
             
             <div style="display: flex; flex-direction: column; gap: 10px;">
                 <a href="https://sdbernalg004-netizen.github.io/VENTAS_QR_ASSIST/" target="_blank" class="btn btn-warning btn-block" style="font-size: 1rem;">
                     <i class="ti ti-shopping-cart"></i> Ver Planes y Comprar Licencia
                 </a>
-                <button class="btn btn-primary btn-block" id="close-upgrade-modal-btn" style="background-color: transparent; border: 1px solid var(--border-color);">
+                <button class="btn btn-primary btn-block" id="close-upgrade-modal-btn" style="background-color: transparent; border: 1px solid var(--border-color); color: var(--text-primary);">
                     Entendido, continuar probando
                 </button>
             </div>
@@ -193,27 +217,27 @@
             
             <div style="display: flex; flex-direction: column; gap: 1.25rem; font-size: 0.9rem; color: var(--text-secondary); max-height: 60vh; overflow-y: auto; padding-right: 5px;">
                 <div style="display: flex; gap: 12px;">
-                    <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</span>
+                    <span style="background: var(--accent); color: var(--accent-fg, white); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">1</span>
                     <div>
-                        <strong style="color: white; display: block; margin-bottom: 2px;">Prepara tu Lista de Invitados en Excel</strong>
+                        <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Prepara tu Lista de Invitados en Excel</strong>
                         Usa la estructura recomendada de columnas: <code>ID</code>, <code>Invitado</code>, <code>Cantidad</code>, <code>QR</code> y <code>Asistencia</code>. Puedes descargar una plantilla lista haciendo clic en el botón <em>"Descargar Plantilla Excel de Ejemplo"</em>.
                     </div>
                 </div>
 
                 <div style="display: flex; gap: 12px;">
-                    <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</span>
+                    <span style="background: var(--accent); color: var(--accent-fg, white); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0;">2</span>
                     <div>
-                        <strong style="color: white; display: block; margin-bottom: 2px;">Escanea los Boletos QR en Puerta</strong>
+                        <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Escanea los Boletos QR en Puerta</strong>
                         Carga el archivo Excel en la app, activa la cámara de tu celular o computadora y comienza a escanear los códigos de los asistentes.
                     </div>
                 </div>
 
                 <!-- Tip Box: Consejos para diseñar tus propios QRs -->
-                <div style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 1rem; margin-top: 0.5rem;">
-                    <strong style="color: #A5B4FC; display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 0.95rem;">
+                <div style="background: var(--accent-glow); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; margin-top: 0.5rem;">
+                    <strong style="color: var(--accent); display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-size: 0.95rem;">
                         <i class="ti ti-bulb text-accent"></i> Consejos si diseñas tus propios Códigos QR:
                     </strong>
-                    <ul style="margin-left: 1.25rem; font-size: 0.8rem; color: #D1D5DB; display: flex; flex-direction: column; gap: 4px;">
+                    <ul style="margin-left: 1.25rem; font-size: 0.8rem; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px;">
                         <li><strong>Coincidencia:</strong> El texto codificado dentro del QR debe ser idéntico al valor en la columna <code>QR</code> o <code>ID</code> de tu Excel (ej. <code>INV-101</code>).</li>
                         <li><strong>Texto Corto:</strong> Usa códigos breves (ej. <code>INV-001</code>). Evita guardar párrafos o URLs largas dentro del QR.</li>
                         <li><strong>Contraste:</strong> Diseña siempre el código en negro sobre fondo blanco con un margen en blanco alrededor.</li>
@@ -228,11 +252,11 @@
         </div>
     </div>
 
-    <script src="app.js?v=7.0"></script>
+    <script src="app.js?v=8.0"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js?v=7.0')
+          navigator.serviceWorker.register('./sw.js?v=8.0')
             .then(reg => {
               console.log('SW Demo registrado con éxito', reg);
               reg.update(); // Chequeo forzado de actualización

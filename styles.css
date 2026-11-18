@@ -2,13 +2,17 @@
     --bg-dark: #1A1412;
     --card-bg: #271E1C;
     --accent: #DE6443;
+    --accent-secondary: #BA6E5B;
     --accent-hover: #C94E2D;
+    --accent-fg: #FFFFFF;
+    --accent-gradient: linear-gradient(90deg, var(--accent-hover), var(--accent), var(--accent-secondary));
+    --accent-glow: rgba(222, 100, 67, 0.15);
     --text-primary: #F5EDE6;
     --text-secondary: #D4C5BC;
     --success: #34D399;
     --warning: #E8955A;
     --danger: #EF4444;
-    --border-color: rgba(222, 100, 67, 0.22);
+    --border-color: rgba(222, 100, 67, 0.25);
     --font-heading: 'Lora', Georgia, serif;
     --font-sans: 'Urbanist', -apple-system, BlinkMacSystemFont, sans-serif;
 }
@@ -31,10 +35,14 @@ h1, h2, h3, h4 {
     font-family: var(--font-heading);
 }
 
+.text-accent {
+    color: var(--accent);
+}
+
 /* Trial Banner Top */
 .trial-top-bar {
-    background: linear-gradient(90deg, #8E4939, #DE6443, #BA6E5B);
-    color: #FFFFFF;
+    background: var(--accent-gradient);
+    color: var(--accent-fg, #FFFFFF);
     text-align: center;
     padding: 10px 15px;
     font-size: 0.95rem;
@@ -43,7 +51,7 @@ h1, h2, h3, h4 {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 15px rgba(222, 100, 67, 0.35);
+    box-shadow: 0 4px 15px var(--accent-glow);
 }
 
 .trial-top-bar a {
@@ -70,6 +78,7 @@ h1, h2, h3, h4 {
     position: sticky;
     top: 0;
     z-index: 100;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .header-container {
@@ -102,14 +111,170 @@ h1, h2, h3, h4 {
 }
 
 .badge-demo {
-    background-color: rgba(222, 100, 67, 0.15);
+    background-color: var(--accent-glow);
     color: var(--accent);
-    border: 1px solid rgba(222, 100, 67, 0.35);
+    border: 1px solid var(--border-color);
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
     margin-left: 10px;
+}
+
+/* Selector Interactivo de Paleta de Evento */
+.event-palette-bar {
+    max-width: 1200px;
+    margin: 1.25rem auto 0;
+    padding: 0 1rem;
+}
+
+.event-palette-inner {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    transition: all 0.25s ease;
+}
+
+.palette-bar-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.palette-bar-label i {
+    font-size: 1.45rem;
+    color: var(--accent);
+    background: var(--accent-glow);
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.palette-bar-label strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--text-primary);
+}
+
+.palette-bar-label span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.palette-chips {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.palette-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.palette-chip:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.palette-chip.active {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 1px var(--accent);
+}
+
+.palette-chip-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    flex-shrink: 0;
+}
+
+.palette-bar-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.custom-color-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 4px 11px 4px 6px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.custom-color-chip:hover {
+    border-color: var(--accent);
+}
+
+.custom-color-chip input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.custom-color-chip input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.custom-color-chip input[type="color"]::-webkit-color-swatch {
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+}
+
+.btn-theme-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-theme-chip:hover {
+    border-color: var(--accent);
+    background: var(--accent-glow);
 }
 
 /* Layout */
@@ -158,7 +323,7 @@ h1, h2, h3, h4 {
 
 .drop-zone:hover, .drop-zone.dragover {
     border-color: var(--accent);
-    background-color: rgba(222, 100, 67, 0.08);
+    background-color: var(--accent-glow);
 }
 
 .drop-icon {
@@ -240,7 +405,7 @@ h1, h2, h3, h4 {
 
 .btn-primary {
     background-color: var(--accent);
-    color: #FFF;
+    color: var(--accent-fg, #FFF);
 }
 
 .btn-primary:hover {
@@ -347,6 +512,62 @@ th {
 }
 
 /* ============================================================================
+ * ☀️ MODO DÍA DE ALTO CONTRASTE (JARDINES & EXTERIORES)
+ * ============================================================================ */
+body.light-theme {
+    --bg-dark: #FAF9F5;
+    --card-bg: #FFFFFF;
+    --text-primary: #1C1917;
+    --text-secondary: #57534E;
+    --border-color: #E2DDD3;
+}
+
+body.light-theme .app-header {
+    background-color: rgba(255, 255, 255, 0.92);
+}
+
+body.light-theme .event-palette-inner {
+    box-shadow: 0 6px 20px rgba(28, 25, 23, 0.06);
+}
+
+body.light-theme .palette-chip,
+body.light-theme .custom-color-chip,
+body.light-theme .btn-theme-chip {
+    background: #FAF9F5;
+    color: #1C1917;
+    border-color: #E2DDD3;
+}
+
+body.light-theme .palette-chip.active {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+}
+
+body.light-theme .stat-card {
+    background-color: #FAF9F5;
+}
+
+body.light-theme th {
+    background-color: #F3EFEA;
+    color: #1C1917;
+}
+
+body.light-theme #search-input {
+    background-color: #FAF9F5 !important;
+    color: #1C1917 !important;
+    border-color: #E2DDD3 !important;
+}
+
+body.light-theme #open-guide-btn {
+    background: #F3EFEA !important;
+    color: #1C1917 !important;
+}
+
+body.light-theme #close-guide-modal-btn {
+    color: #1C1917 !important;
+}
+
+/* ============================================================================
  * 📱 SISTEMA ADAPTATIVO & RESPONSIVE (Móviles, Tablets, Safe Areas)
  * ============================================================================ */
 @media (max-width: 768px) {
@@ -372,6 +593,19 @@ th {
         padding: 0 0.6rem;
         margin: 1rem auto;
         gap: 1rem;
+    }
+
+    .event-palette-bar {
+        padding: 0 0.6rem;
+    }
+
+    .event-palette-inner {
+        padding: 0.9rem 1rem;
+    }
+
+    .palette-chip {
+        padding: 5px 10px;
+        font-size: 0.76rem;
     }
 
     .card {

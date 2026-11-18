@@ -46,8 +46,28 @@ const upgradeModal = document.getElementById("upgrade-modal");
 const upgradeModalMsg = document.getElementById("upgrade-modal-msg");
 const closeUpgradeModalBtn = document.getElementById("close-upgrade-modal-btn");
 
+const EVENT_PALETTES = {
+    terracotta: { name: "Terracota Gala", accent: "#DE6443", secondary: "#BA6E5B", hover: "#C94E2D", bgDark: "#1A1412", cardBg: "#271E1C" },
+    gold:       { name: "Oro Champagne", accent: "#C5A059", secondary: "#A47B2C", hover: "#9A7432", bgDark: "#141311", cardBg: "#201E1A" },
+    emerald:    { name: "Esmeralda Hacienda", accent: "#2E9E6B", secondary: "#52B788", hover: "#217A51", bgDark: "#0E1A15", cardBg: "#162821" },
+    rose:       { name: "Rosa Cuarzo", accent: "#D96B82", secondary: "#B3546A", hover: "#B85066", bgDark: "#1B1316", cardBg: "#291D22" },
+    royal:      { name: "Azul Medianoche", accent: "#4A80E8", secondary: "#60A5FA", hover: "#3366CC", bgDark: "#0F1624", cardBg: "#182338" },
+    lavender:   { name: "Lavanda Imperial", accent: "#9B6B9E", secondary: "#B88BB8", hover: "#7E5181", bgDark: "#17131A", cardBg: "#241E29" }
+};
+
+let currentTrialAccent = "#DE6443";
+let isTrialLightTheme = localStorage.getItem("trial-theme") === "light";
+
+const themeColorMeta = document.getElementById("theme-color-meta");
+const trialPaletteChips = document.getElementById("trial-palette-chips");
+const trialColorPicker = document.getElementById("trial-color-picker");
+const trialThemeToggle = document.getElementById("trial-theme-toggle");
+const trialThemeIcon = document.getElementById("trial-theme-icon");
+const trialThemeText = document.getElementById("trial-theme-text");
+
 document.addEventListener("DOMContentLoaded", () => {
     setupPwa();
+    setupTrialPaletteControls();
     setupFileLoaders();
     setupScanner();
     setupSearch();
@@ -59,6 +79,123 @@ document.addEventListener("DOMContentLoaded", () => {
         downloadTemplateBtn.addEventListener("click", downloadSampleTemplate);
     }
 });
+
+function normalizeHex(hex) {
+    if (!hex || typeof hex !== "string") return "#DE6443";
+    let clean = hex.trim().replace(/^#/, "");
+    if (clean.length === 3) clean = clean.split("").map(c => c + c).join("");
+    if (!/^[0-9a-fA-F]{6}$/.test(clean)) return "#DE6443";
+    return "#" + clean.toUpperCase();
+}
+
+function hexToRgb(hex) {
+    const norm = normalizeHex(hex).slice(1);
+    return {
+        r: parseInt(norm.slice(0, 2), 16),
+        g: parseInt(norm.slice(2, 4), 16),
+        b: parseInt(norm.slice(4, 6), 16)
+    };
+}
+
+function adjustHexBrightness(hex, percent) {
+    const { r, g, b } = hexToRgb(hex);
+    const factor = percent / 100;
+    const adj = (ch) => {
+        const val = factor >= 0 ? ch + (255 - ch) * factor : ch * (1 + factor);
+        return Math.max(0, Math.min(255, Math.round(val)));
+    };
+    const toHex = (n) => n.toString(16).padStart(2, "0").toUpperCase();
+    return `#${toHex(adj(r))}${toHex(adj(g))}${toHex(adj(b))}`;
+}
+
+function hexToRgba(hex, alpha) {
+    const { r, g, b } = hexToRgb(hex);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function getContrastForeground(hex) {
+    const { r, g, b } = hexToRgb(hex);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.62 ? "#1A1412" : "#FFFFFF";
+}
+
+function applyTrialPalette(paletteKey, customHex = null) {
+    const palette = (paletteKey && EVENT_PALETTES[paletteKey]) ? EVENT_PALETTES[paletteKey] : null;
+    const accent = normalizeHex(customHex || (palette ? palette.accent : "#DE6443"));
+    const secondary = palette ? palette.secondary : adjustHexBrightness(accent, 18);
+    const hover = palette ? palette.hover : adjustHexBrightness(accent, -18);
+    const bgDark = palette ? palette.bgDark : "#1A1412";
+    const cardBg = palette ? palette.cardBg : "#271E1C";
+    const fg = getContrastForeground(accent);
+
+    currentTrialAccent = accent;
+
+    const root = document.documentElement.style;
+    root.setProperty("--accent", accent);
+    root.setProperty("--accent-secondary", secondary);
+    root.setProperty("--accent-hover", hover);
+    root.setProperty("--accent-fg", fg);
+    root.setProperty("--accent-gradient", `linear-gradient(90deg, ${hover}, ${accent}, ${secondary})`);
+    root.setProperty("--accent-glow", hexToRgba(accent, 0.16));
+    root.setProperty("--border-color", hexToRgba(accent, 0.25));
+    root.setProperty("--bg-dark", bgDark);
+    root.setProperty("--card-bg", cardBg);
+
+    if (themeColorMeta) themeColorMeta.setAttribute("content", accent);
+    if (trialColorPicker) trialColorPicker.value = accent;
+
+    document.querySelectorAll(".palette-chip").forEach(btn => {
+        btn.classList.toggle("active", Boolean(palette && btn.dataset.palette === paletteKey));
+    });
+}
+
+function applyTrialTheme(light) {
+    isTrialLightTheme = light;
+    document.body.classList.toggle("light-theme", light);
+    if (trialThemeIcon) trialThemeIcon.className = light ? "ti ti-moon" : "ti ti-sun";
+    if (trialThemeText) trialThemeText.textContent = light ? "Modo Noche" : "Modo Día";
+    localStorage.setItem("trial-theme", light ? "light" : "dark");
+}
+
+function setupTrialPaletteControls() {
+    if (trialPaletteChips) {
+        trialPaletteChips.innerHTML = Object.entries(EVENT_PALETTES).map(([key, pal]) => `
+            <button type="button" class="palette-chip" data-palette="${key}" title="${pal.name}">
+                <span class="palette-chip-dot" style="background: linear-gradient(135deg, ${pal.accent}, ${pal.secondary});"></span>
+                <span>${pal.name}</span>
+            </button>
+        `).join("");
+
+        trialPaletteChips.querySelectorAll(".palette-chip").forEach(chip => {
+            chip.addEventListener("click", () => {
+                const key = chip.dataset.palette;
+                const pal = EVENT_PALETTES[key];
+                if (!pal) return;
+                localStorage.setItem("trial-event-palette", key);
+                localStorage.setItem("trial-accent-color", pal.accent);
+                applyTrialPalette(key);
+            });
+        });
+    }
+
+    if (trialColorPicker) {
+        trialColorPicker.addEventListener("input", (e) => {
+            const hex = normalizeHex(e.target.value);
+            localStorage.setItem("trial-event-palette", "custom");
+            localStorage.setItem("trial-accent-color", hex);
+            applyTrialPalette("custom", hex);
+        });
+    }
+
+    if (trialThemeToggle) {
+        trialThemeToggle.addEventListener("click", () => applyTrialTheme(!isTrialLightTheme));
+    }
+
+    const savedPalette = localStorage.getItem("trial-event-palette") || "terracotta";
+    const savedColor = localStorage.getItem("trial-accent-color");
+    applyTrialPalette(savedPalette, savedPalette === "custom" ? savedColor : null);
+    applyTrialTheme(isTrialLightTheme);
+}
 
 function setupGuideModal() {
     const openGuideBtn = document.getElementById("open-guide-btn");
@@ -90,7 +227,7 @@ function downloadSampleTemplate() {
 
 function setupPwa() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js').catch(err => console.log(err));
+        navigator.serviceWorker.register('./sw.js?v=8.0').catch(err => console.log(err));
     }
 }
 
@@ -279,7 +416,14 @@ function toggleCheckIn(guestId, markPresent) {
         const now = new Date();
         const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         guest.attendance = `Asistió (${timeStr})`;
-        if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
+        if (typeof confetti === 'function') {
+            confetti({
+                particleCount: 55,
+                spread: 60,
+                origin: { y: 0.7 },
+                colors: [currentTrialAccent, '#F5EDE6', '#34D399']
+            });
+        }
     } else {
         guest.attendance = "";
     }
